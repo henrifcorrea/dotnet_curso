@@ -28,10 +28,35 @@ app.MapGet("/getProduct/{code}", ([FromRoute] string code) => {
     return code;
 });
 
+/// Ultilizando o GET para extrair (via rota) informações da nossa base de dados (Classe)
+app.MapGet("/getProduct2/{code}", ([FromRoute] string code) => {
+    var product = ProductRepository.GetBy(code);
+    return product;
+});
+
 /// Método POST
 /// Ultilizando a classe para salvar o prduto.
 app.MapPost("/saveProduct", (Product product) => {
     return product.Code + " - " + product.Name;
+});
+
+/// Utilizando o POST para armazenar informações na nossa base de dados (Classe)
+app.MapPost("/saveProduct2", (Product product) => {
+    ProductRepository.Add(product);
+});
+
+/// Método PUT
+/// Atualizar um dado na nossa base de dados (Classe)
+app.MapPut("/editProduct", (Product product) => {
+    var productSaved = ProductRepository.GetBy(product.Code);
+    productSaved.Name = product.Name;
+});
+
+/// Método DELETE
+/// Deletar (por rota) um dado na nossa base de dados (Classe)
+app.MapDelete("/deleteProduct/{code}", ([FromRoute] string code) => {
+    var productSaved = ProductRepository.GetBy(code);
+    ProductRepository.Remove(productSaved);
 });
 
 app.Run();
@@ -48,7 +73,11 @@ public static class ProductRepository {
     }
 
     public static Product GetBy(string code) {
-        Products.First(p => p.Code == code);
+        return Products.FirstOrDefault(p => p.Code == code);
+    }
+
+    public static void Remove(Product product) {
+        Products.Remove(product);
     }
 }
 
