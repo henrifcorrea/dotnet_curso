@@ -21,10 +21,11 @@ app.MapGet("/products/{code}", ([FromRoute] string code) => {
     return Results.NotFound();
 });
 
-/// Criando um endpoint que retorne o nome do database
-app.MapGet("/configuration/database", (IConfiguration config) => {
-    return Results.Ok($"{config["Database:Connection"]}:{config["Database:Port"]}");
-});
+/// Criando um endpoint que retorne o nome do database pegando do arquivo de configuration usando uma condição para definir qual vai ser o ambiente que será possivel pegar a informação.
+if(app.Environment.IsStaging())
+    app.MapGet("/configuration/database", (IConfiguration config) => {
+        return Results.Ok($"{config["Database:Connection"]}:{config["Database:Port"]}");
+    });
 
 /// Método PUT
 /// Atualizar um dado na nossa base de dados (Classe).
