@@ -1,0 +1,24 @@
+/// Método GET
+app.MapGet("/", () => "Hello World!");
+
+app.MapGet("/User", () => new {Name = "Henrique Correa", Age = 20});
+
+/// Adicionando um header no retorno
+app.MapGet("/AddHeader", (HttpResponse response) => {
+    response.Headers.Add("Teste", "Teste 2");
+    return new {Name = "Henrique Correa", Age = 20};   
+});
+
+/// Parametro pelo Header (Exemplo: Nos headers da requisição insira p parametro: product-code = xyz)
+app.MapGet("/getProductHeader", (HttpRequest request) => {
+    return request.Headers["product-code"].ToString();
+});
+
+/// Parametro pela URL (Exemplo: /api.app.com/users?datestart={date}dateend={date})
+app.MapGet("/getProduct", ([FromQuery] string dateStart, [FromQuery] string dateEnd) => {
+    return dateStart + " - " + dateEnd;
+});
+ Atráves de rota na URL (Exemplo: /api.app.com/user/{code})
+app.MapGet("/getProduct/{code}", ([FromRoute] string code) => {
+    return code;
+});
