@@ -1,8 +1,9 @@
-using System.Reflection.Metadata.Ecma335;
 using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
+var configuration = app.Configuration;
+ProductRepository.Init(configuration);
 
 /// Método POST
 /// Utilizando o POST para armazenar informações na nossa base de dados (Classe) e adicionando um retorno de status code de criação (201).
@@ -18,6 +19,11 @@ app.MapGet("/products/{code}", ([FromRoute] string code) => {
     if(product != null)
         return Results.Ok(product);
     return Results.NotFound();
+});
+
+/// Criando um endpoint que retorne o nome do database
+app.MapGet("/configuration/database", (IConfiguration config) => {
+    return Results.Ok($"{config["Database:Connection"]}:{config["Database:Port"]}");
 });
 
 /// Método PUT
@@ -40,12 +46,14 @@ app.Run();
 
 /// Criando uma classe para armazenar os dados (Simulando um DB)
 public static class ProductRepository {
-    public static List<Product> Products { get; set; }
+    public static List<Product> Products { get; set; } = Products = new List<Product>();
+
+    public static void Init(IConfiguration config) {
+        var products = config.GetSection("Products").Get<List<Product>>();
+        Products = products;
+    }
 
     public static void Add(Product product) {
-        if(Products == null)
-            Products = new List<Product>();
-
         Products.Add(product);
     }
 
