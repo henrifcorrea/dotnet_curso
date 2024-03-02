@@ -3,6 +3,19 @@
 # Nuget <h3>
 **Nuget é um gerenciador de pacote do DOTNET. Caso seja necessário instalar um pacote do DOTNET no seu programa, o Nuget é o unico caminho possível para ser realizado essa instalação**
 
+# REST API <h3>
+**Representational State Transfer. Forneçe uma flexibilidade para recursos que se tratam de qualquer tipo de objeto, dado e etc que pode ser acessado pelo cliente no seu ambiente.**
+
+* POST https://localhost:3000/product
+
+* GET https://localhost:3000/product/{id}
+
+* PUT https://localhost:3000/product
+
+* DELETE https://localhost:3000/product/{id}
+
+**Status code dentro de API, é importante para o usuario que ira receber a resposta da nossa API, pois atráves dele o usuario pode ter ideia do que aconteceu com a requisição. [Informações sobre os possiveis status code](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status).**
+
 # Endpoint <h3>
 **Endpoint é uma "tabela" virtual onde todos os paths da nossa aplicação pode ser acessada em uma requisição. Cada um desses paths apontam para qual rotina do nosso código será executada**
 
@@ -17,14 +30,3 @@
 
 * DELETE
 *Método para deletar informação da API*
-
-# REST API <h3>
-**Representational State Transfer. Forneçe uma flexibilidade para recursos que se tratam de qualquer tipo de objeto, dado e etc que pode ser acessado pelo cliente no seu ambiente.**
-
-* POST https://localhost:3000/product
-
-* GET https://localhost:3000/product/{id}
-
-* PUT https://localhost:3000/product
-
-* DELETE https://localhost:3000/product/{id}
