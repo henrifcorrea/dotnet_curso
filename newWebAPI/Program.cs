@@ -14,6 +14,11 @@ app.MapGet("/AddHeader", (HttpResponse response) => {
     return new {Name = "Henrique Correa", Age = 20};   
 });
 
+/// Parametro pelo Header (Exemplo: Nos headers da requisição insira p parametro: product-code = xyz)
+app.MapGet("/getProductHeader", (HttpRequest request) => {
+    return request.Headers["product-code"].ToString();
+});
+
 /// Parametro pela URL (Exemplo: /api.app.com/users?datestart={date}dateend={date})
 app.MapGet("/getProduct", ([FromQuery] string dateStart, [FromQuery] string dateEnd) => {
     return dateStart + " - " + dateEnd;
@@ -30,6 +35,22 @@ app.MapPost("/saveProduct", (Product product) => {
 });
 
 app.Run();
+
+/// Criando uma classe para armazenar os dados (Simulando um DB)
+public static class ProductRepository {
+    public static List<Product> Products { get; set; }
+
+    public static void Add(Product product) {
+        if(Products == null)
+            Products = new List<Product>();
+
+        Products.Add(product);
+    }
+
+    public static Product GetBy(string code) {
+        Products.First(p => p.Code == code);
+    }
+}
 
 /// Criando uma classe 
 public class Product {
