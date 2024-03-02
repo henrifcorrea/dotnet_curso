@@ -8,9 +8,12 @@
 
 * GET
 *Método para obter uma inforação da API. Ex C#: app.MapGet("/", () => "Hello World!");*
+
 * POST
 *Método para inserir uma informação na API. Ex C#: app.MapPost("/saveProduct", (Product product) => {return product.Code + " - " + product.Name;});*
+
 * PUT 
 *Método para efeturar alteração na API*
+
 * DELETE
 *Método para deletar informação da API*
