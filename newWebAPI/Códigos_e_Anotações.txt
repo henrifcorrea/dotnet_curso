@@ -22,3 +22,9 @@ app.MapGet("/getProduct", ([FromQuery] string dateStart, [FromQuery] string date
 app.MapGet("/getProduct/{code}", ([FromRoute] string code) => {
     return code;
 });
+
+/// Criando um migration via CLI
+dotnet ef migrations add CreateProduct
+
+/// Salvando o banco de dados no servidor definido na classe via CLI
+dotnet ef database update
