@@ -11,9 +11,17 @@ ProductRepository.Init(configuration);
 
 /// Método POST
 /// Utilizando o POST para armazenar informações na nossa base de dados (Classe) e adicionando um retorno de status code de criação (201).
-app.MapPost("/products", (Product product) => {
-    ProductRepository.Add(product);
-    return Results.Created($"/products/{product.Code}", product.Code);
+app.MapPost("/products", (ProductRequest productRequest, ApplicationDbContext context) => {
+    var category = context.Categories.Where(c => c.Id == productRequest.CategoryId).First();
+    var product = new Product {
+        Code = productRequest.Code,
+        Name = productRequest.Name,
+        Description = productRequest.Description,
+        Catgory = category
+    };
+    context.Products.Add(product);
+    context.SaveChanges();
+    return Results.Created($"/products/{product.Id}", product.Id);
 });
 
 /// Método GET
